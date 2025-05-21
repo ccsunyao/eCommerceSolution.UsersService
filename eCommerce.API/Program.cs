@@ -26,6 +26,16 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddAutoMapper(typeof(ApplicationUserMappingProfile).Assembly);
 
+//Add cors services
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder => {
+        builder.WithOrigins("http://localhost:4200")
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 // Build the web application
 var app = builder.Build();
 
@@ -33,6 +43,7 @@ app.UseExceptionHandlingMiddleware();
 
 // Routing
 app.UseRouting();
+app.UseCors();
 
 // Auth
 app.UseAuthentication();
